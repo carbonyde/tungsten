@@ -34,16 +34,24 @@ func (a *App) AddFunction(functions ...*Function) {
 
 func (a *App) PageRouter(e *echo.Echo) {
 	for _, page := range a.pages {
-		e.GET(page.Route, func(c echo.Context) error {
-			return Render(c, page.Component(c))
-		}, page.middleware...)
+		setPage(e, page)
 	}
 }
 
 func (a *App) FunctionRouter(e *echo.Echo) {
 	for _, function := range a.functions {
-		e.Add(function.Method, function.Route, function.Handler, function.middleware...)
+		setFunction(e, function)
 	}
+}
+
+func setPage(e *echo.Echo, page *Page) {
+	e.GET(page.Route, func(c echo.Context) error {
+		return Render(c, page.Component(c))
+	}, page.middleware...)
+}
+
+func setFunction(e *echo.Echo, function *Function) {
+	e.Add(function.Method, function.Route, function.Handler, function.middleware...)
 }
 
 func Render(c echo.Context, component templ.Component) error {
