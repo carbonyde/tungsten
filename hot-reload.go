@@ -1,4 +1,4 @@
-package util
+package tungsten
 
 import (
 	"github.com/gorilla/websocket"

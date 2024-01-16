@@ -1,4 +1,4 @@
-package util
+package tungsten
 
 import (
 	"github.com/a-h/templ"
