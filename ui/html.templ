@@ -1,0 +1,48 @@
+package ui
+
+import (
+	"github.com/carbonyde/tungsten"
+)
+
+type HtmlProps struct {
+	Lang        string
+	Title       string
+	Description string
+	Url         string
+	Keywords    string
+	Image       string
+	Color       string
+}
+
+templ Html(props HtmlProps) {
+	<!DOCTYPE html>
+	<html class="dark" lang={ props.Lang }>
+		<head>
+			<meta charset="UTF-8"/>
+			<link rel="icon" href="/static/fav.ico" sizes="any"/>
+			<link rel="icon" href="/static/fav.svg" type="image/svg+xml"/>
+			<link rel="manifest" href="/static/app.webmanifest"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>{ props.Title }</title>
+			<meta name="title" content={ props.Title }/>
+			<meta name="description" content={ props.Description }/>
+			<meta name="keywords" content={ props.Keywords }/>
+			<meta property="og:type" content="website"/>
+			<meta property="og:url" content={ props.Url }/>
+			<meta property="og:title" content={ props.Title }/>
+			<meta property="og:description" content={ props.Description }/>
+			<meta property="og:image" content={ props.Image }/>
+			<meta name="theme-color" content={ props.Color }/>
+			<link rel="stylesheet" href="/static/styles.css"/>
+			@ColorSchemeScript
+		</head>
+		<body hx-boost="true">
+			{ children... }
+			<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+			@tungsten.InlineScript("htmx.config.globalViewTransitions = true")
+			if tungsten.Env.Watch {
+				@HotReloadScript
+			}
+		</body>
+	</html>
+}
